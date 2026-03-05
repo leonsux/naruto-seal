@@ -331,13 +331,13 @@ const JUTSU_DATABASE = {
     description:
       "召唤巨大水柱形成瀑布般洪流冲击敌人。卡卡西用写轮眼从再不斩处复制此术。",
   },
-  "水遁·水�的鞭打": {
+  "水遁·水断波": {
     romaji: "Suiton: Mizu no Muchi",
     user: "千手扉间",
     rank: "C",
     element: "water",
     seals: ["丑", "巳"],
-    description: "将水形成鞭状进行中距离攻击，二代火影擅长的水遁基础攻击术。",
+    description: "从口中猛烈喷出急速的超高压细水柱连续切断目标，该术犹如锋利的刀刃，破坏力极高。",
   },
   "水遁·水牙弹": {
     romaji: "Suiton: Suigadan",
@@ -347,7 +347,7 @@ const JUTSU_DATABASE = {
     seals: ["丑", "巳", "卯"],
     description: "将水形成锐利的牙状弹体射出攻击，速度快穿透力强。",
   },
-  "水遁·水�的监狱": {
+  "水遁·水牢之术": {
     romaji: "Suiton: Suirō no Jutsu",
     user: "桃地再不斩",
     rank: "C",
@@ -356,7 +356,7 @@ const JUTSU_DATABASE = {
     description:
       "单手维持一个水球将目标困在其中无法动弹。再不斩用此术困住卡卡西的经典场面。缺点是必须一只手持续接触水牢。",
   },
-  "水遁·大�的�的术": {
+  "水遁·大瀑布之术": {
     romaji: "Suiton: Daibakuryu no Jutsu",
     user: "桃地再不斩",
     rank: "A",
@@ -376,7 +376,7 @@ const JUTSU_DATABASE = {
   },
   "水遁·千食鲛": {
     romaji: "Suiton: Senshokukō",
-    user: "干柿�的鬼鲛",
+    user: "干柿 的鬼鲛",
     rank: "B",
     element: "water",
     seals: ["寅", "丑", "巳", "子"],
@@ -411,7 +411,7 @@ const JUTSU_DATABASE = {
   },
   "水遁·水乱波": {
     romaji: "Suiton: Mizurappa",
-    user: "弥彦（佩恩）/ 山城青�的叶",
+    user: "弥彦（佩恩）/ 山城青 的叶",
     rank: "C",
     element: "water",
     seals: ["丑", "巳"],
@@ -484,7 +484,7 @@ const JUTSU_DATABASE = {
     description:
       "创造一个土遁结界将目标困在黑暗的土牢中，自来也用来封锁敌人行动的忍术。",
   },
-  "土遁·土�的流": {
+  "土遁·土流大河": {
     romaji: "Doton: Doryū Taiga",
     user: "猿飞日斩",
     rank: "C",
@@ -492,7 +492,7 @@ const JUTSU_DATABASE = {
     seals: ["寅", "未", "丑"],
     description: "将地面变成泥河使敌人失去平衡，常作为土龙弹的前置布置。",
   },
-  "土遁·�的碎": {
+  "土遁·岩隐": {
     romaji: "Doton: Iwagakure no Jutsu",
     user: "大野木",
     rank: "C",
@@ -519,7 +519,7 @@ const JUTSU_DATABASE = {
   },
   "土遁·地动核": {
     romaji: "Doton: Chidōkaku",
-    user: "大蛇丸 / �的",
+    user: "大蛇丸 /  的",
     rank: "B",
     element: "earth",
     seals: ["亥", "丑", "巳", "戌"],
@@ -718,7 +718,7 @@ const JUTSU_DATABASE = {
   },
   "风遁·风切之术": {
     romaji: "Fūton: Kazekiri no Jutsu",
-    user: "手�的",
+    user: "手 的",
     rank: "C",
     element: "wind",
     seals: ["丑", "子"],
@@ -733,14 +733,14 @@ const JUTSU_DATABASE = {
     description:
       "手鞠用巨扇释放的大范围旋风攻击，无需结印。借助铁扇增幅风遁威力。",
   },
-  "风遁·�的切之舞": {
+  "风遁·镰鼬": {
     romaji: "Fūton: Kamaitachi no Jutsu",
     user: "手鞠",
     rank: "C",
     element: "wind",
     seals: [],
     description:
-      "手鞠用巨扇掀起的镰鼬之风，无需结印，无数微型风刃可撕裂一切。中忍考试中对阵手�的时使用。",
+      "手鞠用巨扇掀起的镰鼬之风，无需结印，无数微型风刃可撕裂一切。中忍考试中对阵天天的时使用。",
   },
 
   // ╔══════════════════════════════════════╗
@@ -918,7 +918,7 @@ const JUTSU_DATABASE = {
     description:
       "忍者学院基础三术之一，创造虚幻的分身。没有实体无法攻击，仅能迷惑对手。鸣人曾经最不擅长的忍术。",
   },
-  "�的体化之术": {
+  " 的体化之术": {
     romaji: "Karada no Jutsu",
     user: "全体忍者",
     rank: "E",
@@ -931,14 +931,14 @@ const JUTSU_DATABASE = {
   // ---- 自来也 ----
   "仙法·五右卫门": {
     romaji: "Senpō: Goemon",
-    user: "自来也 / 蛤蟆文太 / 蛤蟆�的龙",
+    user: "自来也 / 蛤蟆夫妇",
     rank: "A",
     element: "fire",
     seals: ["巳", "寅", "丑"],
     description:
       "自来也与蛤蟆文太、蛤蟆龙的三体连携忍术。油+火+风三属性合一，形成超高温油河淹没敌人。",
   },
-  "�的蟆油炎弹": {
+  "蛤蟆油炎弹: {
     romaji: "Gamayu Endan",
     user: "自来也 / 蛤蟆文太",
     rank: "B",
@@ -1249,7 +1249,7 @@ const JUTSU_DATABASE = {
     description:
       "操纵砂子包裹住对手全身。无需结印，我爱罗的砂子会自动防御和攻击。中忍考试的标志性忍术。",
   },
-  "砂�的送葬": {
+  "砂 的送葬": {
     romaji: "Sabaku Sōsō",
     user: "我爱罗",
     rank: "B",
@@ -1334,7 +1334,7 @@ const JUTSU_DATABASE = {
     description:
       "将影子变成实体状的针刺从影中射出，可以物理刺穿对手。影模仿的攻击型变化。",
   },
-  "影首�的缚之术": {
+  "影子绞首术": {
     romaji: "Kage Kubishibari no Jutsu",
     user: "奈良鹿丸",
     rank: "B",
@@ -1513,7 +1513,7 @@ const JUTSU_DATABASE = {
     description:
       "仙人模式下的特殊体术，利用自然能量延伸攻击范围。看似没有命中但自然能量已经打到对手，佩恩天道也被打得措手不及。",
   },
-  "仙法·蛙�的�的声": {
+  "魔幻·蛤蟆临唱": {
     romaji: "Senpō: Frog Call",
     user: "自来也",
     rank: "A",
@@ -1563,7 +1563,7 @@ const JUTSU_DATABASE = {
     description:
       "大范围幻术使对手产生置身花海的幻觉，花瓣中含有催眠效果使人逐渐丧失意识。",
   },
-  "魔幻·�的的牢之术": {
+  "魔幻·镜天地转": {
     romaji: "Magen: Kyō Tenchi Ten",
     user: "宇智波鼬",
     rank: "A",
@@ -1890,7 +1890,7 @@ const JUTSU_DATABASE = {
     element: "none",
     seals: [],
     description:
-      "开启第六门后拳速产生空气摩擦燃烧，形成如孔雀开屏般的火焰拳攻击。凯对吻�的�的鬼鲛时使用。",
+      "开启第六门后拳速产生空气摩擦燃烧，形成如孔雀开屏般的火焰拳攻击。凯对吻 的 的鬼鲛时使用。",
   },
   昼虎: {
     romaji: "Hirudora",
