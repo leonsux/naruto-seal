@@ -2123,8 +2123,10 @@ const DOM = {
   sealsTimeline: document.getElementById("sealsTimeline"),
   replayBtn: document.getElementById("replayBtn"),
   noSealSection: document.getElementById("noSealSection"),
-  jutsuRelease: document.getElementById("jutsuRelease"),
-  releaseText: document.getElementById("releaseText"),
+  jutsuRelease: document.getElementById('jutsuRelease'),
+  releaseText: document.getElementById('releaseText'),
+  releaseSub: document.getElementById('releaseSub'),
+  releaseParticles: document.getElementById('releaseParticles'),
   quickGrid: document.getElementById("quickGrid"),
 };
 
@@ -2499,19 +2501,39 @@ function showReleaseEffect() {
   const jutsu = state.currentJutsu;
   if (!jutsu) return;
 
-  DOM.releaseText.textContent = jutsu.name + "！！";
-  DOM.releaseText.className = "release-text";
-  DOM.jutsuRelease.classList.remove("hidden");
-  DOM.releaseText.style.animation = "none";
-  DOM.releaseText.offsetHeight;
-  DOM.releaseText.style.animation = "";
+  const element = jutsu.element || 'none';
 
-  // ★ 传入属性，播放对应音效 ★
-  AudioSystem.playReleaseSound(jutsu.element);
+  // 设置属性 class
+  DOM.jutsuRelease.className = 'jutsu-release element-' + element;
 
+  // 设置文字
+  DOM.releaseText.textContent = jutsu.name + '！！';
+  DOM.releaseText.className = 'release-text animate-in';
+  DOM.releaseSub.textContent = jutsu.romaji || '';
+  DOM.releaseSub.className = 'release-sub animate-in';
+
+  // ★ 震动作用在 .app 内容层，不影响 fixed 特效层 ★
+  const wrapper = document.getElementById('appWrapper');
+  wrapper.classList.add('screen-shake');
+  setTimeout(() => wrapper.classList.remove('screen-shake'), 400);
+
+  // 粒子爆发
+  ReleaseParticles.burst(element);
+
+  // 播放音效
+  AudioSystem.playReleaseSound(element);
+
+  // 文字退场
   setTimeout(() => {
-    DOM.jutsuRelease.classList.add("hidden");
-  }, 1800);
+    DOM.releaseText.classList.add('fade-out');
+    DOM.releaseSub.classList.add('fade-out');
+  }, 1400);
+
+  // 关闭特效层
+  setTimeout(() => {
+    DOM.jutsuRelease.classList.add('hidden');
+    ReleaseParticles.stop();
+  }, 2200);
 }
 
 // ==========================================
@@ -2993,6 +3015,231 @@ const AudioSystem = {
     } catch (e) {}
   },
 };
+
+// ============================================
+// 释放特效粒子系统
+// ============================================
+const ReleaseParticles = {
+  canvas: null,
+  ctx: null,
+  particles: [],
+  animationId: null,
+
+  config: {
+    fire: {
+      colors: ['#FF4500', '#FF6B35', '#FFD700', '#FF8C00', '#FFA500'],
+      shapes: ['circle', 'spark'],
+      count: 80, speed: 8, life: 60, size: [3, 8],
+      gravity: -0.05, trail: true,
+    },
+    water: {
+      colors: ['#1E90FF', '#00BFFF', '#87CEEB', '#4FC3F7', '#B3E5FC'],
+      shapes: ['circle', 'drop'],
+      count: 70, speed: 7, life: 55, size: [2, 6],
+      gravity: 0.08, trail: false,
+    },
+    earth: {
+      colors: ['#8B6914', '#A0855B', '#C4A55A', '#6B4F2E', '#D2B48C'],
+      shapes: ['square', 'debris'],
+      count: 50, speed: 9, life: 45, size: [4, 10],
+      gravity: 0.15, trail: false,
+    },
+    lightning: {
+      colors: ['#B480FF', '#D9B3FF', '#FFFFFF', '#9B59E0', '#E8DAFF'],
+      shapes: ['spark', 'bolt'],
+      count: 90, speed: 12, life: 35, size: [2, 5],
+      gravity: 0, trail: true,
+    },
+    wind: {
+      colors: ['#78DCC0', '#A8E6CF', '#DCEDC1', '#B2DFDB', '#E0F7FA'],
+      shapes: ['circle', 'leaf'],
+      count: 60, speed: 6, life: 65, size: [2, 5],
+      gravity: -0.02, trail: false,
+    },
+    none: {
+      colors: ['#C8C8FF', '#E0E0FF', '#FFFFFF', '#B0B0FF', '#9090FF'],
+      shapes: ['circle', 'spark'],
+      count: 60, speed: 7, life: 50, size: [2, 6],
+      gravity: 0, trail: true,
+    },
+  },
+
+  initCanvas() {
+    this.canvas = DOM.releaseParticles;
+    if (!this.canvas) return;
+    this.ctx = this.canvas.getContext('2d');
+    this.canvas.width = window.innerWidth;
+    this.canvas.height = window.innerHeight;
+  },
+
+  createParticle(cfg) {
+    const cx = this.canvas.width / 2;
+    const cy = this.canvas.height / 2;
+    const angle = Math.random() * Math.PI * 2;
+    const speed = (Math.random() * 0.6 + 0.4) * cfg.speed;
+    const size = cfg.size[0] + Math.random() * (cfg.size[1] - cfg.size[0]);
+    const life = cfg.life + Math.random() * 20;
+    return {
+      x: cx + (Math.random() - 0.5) * 30,
+      y: cy + (Math.random() - 0.5) * 30,
+      vx: Math.cos(angle) * speed,
+      vy: Math.sin(angle) * speed,
+      size, life, maxLife: life,
+      color: cfg.colors[Math.floor(Math.random() * cfg.colors.length)],
+      shape: cfg.shapes[Math.floor(Math.random() * cfg.shapes.length)],
+      gravity: cfg.gravity,
+      trail: cfg.trail,
+      rotation: Math.random() * Math.PI * 2,
+      rotSpeed: (Math.random() - 0.5) * 0.15,
+      prev: [],
+    };
+  },
+
+  draw(p) {
+    const ctx = this.ctx;
+    const lr = p.life / p.maxLife;
+    const alpha = lr > 0.7 ? 1 : lr / 0.7;
+
+    // 拖尾
+    if (p.trail && p.prev.length > 1) {
+      ctx.beginPath();
+      ctx.moveTo(p.prev[0].x, p.prev[0].y);
+      for (let i = 1; i < p.prev.length; i++) ctx.lineTo(p.prev[i].x, p.prev[i].y);
+      ctx.lineTo(p.x, p.y);
+      ctx.strokeStyle = p.color + Math.floor(alpha * 80).toString(16).padStart(2, '0');
+      ctx.lineWidth = p.size * 0.3 * lr;
+      ctx.stroke();
+    }
+
+    ctx.save();
+    ctx.translate(p.x, p.y);
+    ctx.rotate(p.rotation);
+    ctx.globalAlpha = alpha;
+    const s = p.size * (0.5 + lr * 0.5);
+
+    switch (p.shape) {
+      case 'circle':
+        ctx.beginPath();
+        ctx.arc(0, 0, s, 0, Math.PI * 2);
+        ctx.fillStyle = p.color;
+        ctx.shadowBlur = s * 3;
+        ctx.shadowColor = p.color;
+        ctx.fill();
+        break;
+      case 'spark':
+        ctx.beginPath();
+        for (let i = 0; i < 4; i++) {
+          const a = (Math.PI / 2) * i;
+          ctx.moveTo(0, 0);
+          ctx.lineTo(Math.cos(a) * s * 2, Math.sin(a) * s * 2);
+        }
+        ctx.strokeStyle = p.color;
+        ctx.lineWidth = s * 0.4;
+        ctx.shadowBlur = s * 2;
+        ctx.shadowColor = p.color;
+        ctx.stroke();
+        break;
+      case 'square':
+        ctx.fillStyle = p.color;
+        ctx.fillRect(-s, -s, s * 2, s * 2);
+        break;
+      case 'debris':
+        ctx.beginPath();
+        ctx.moveTo(-s, -s * 0.6);
+        ctx.lineTo(s * 0.8, -s);
+        ctx.lineTo(s, s * 0.5);
+        ctx.lineTo(-s * 0.3, s);
+        ctx.closePath();
+        ctx.fillStyle = p.color;
+        ctx.fill();
+        break;
+      case 'drop':
+        ctx.beginPath();
+        ctx.arc(0, s * 0.3, s, 0, Math.PI * 2);
+        ctx.fillStyle = p.color;
+        ctx.fill();
+        break;
+      case 'bolt':
+        ctx.beginPath();
+        ctx.moveTo(0, -s * 2);
+        ctx.lineTo(s * 0.8, -s * 0.3);
+        ctx.lineTo(s * 0.2, -s * 0.3);
+        ctx.lineTo(s * 0.6, s * 2);
+        ctx.lineTo(-s * 0.2, s * 0.3);
+        ctx.lineTo(s * 0.3, s * 0.3);
+        ctx.closePath();
+        ctx.fillStyle = p.color;
+        ctx.shadowBlur = s * 4;
+        ctx.shadowColor = p.color;
+        ctx.fill();
+        break;
+      case 'leaf':
+        ctx.beginPath();
+        ctx.ellipse(0, 0, s * 1.5, s * 0.5, 0, 0, Math.PI * 2);
+        ctx.fillStyle = p.color;
+        ctx.fill();
+        break;
+    }
+    ctx.restore();
+  },
+
+  update(p) {
+    if (p.trail) {
+      p.prev.push({ x: p.x, y: p.y });
+      if (p.prev.length > 6) p.prev.shift();
+    }
+    p.x += p.vx;
+    p.y += p.vy;
+    p.vy += p.gravity;
+    p.vx *= 0.985;
+    p.vy *= 0.985;
+    p.rotation += p.rotSpeed;
+    p.life--;
+    return p.life > 0;
+  },
+
+  animate() {
+    if (!this.ctx || this.particles.length === 0) {
+      this.stop();
+      return;
+    }
+    this.ctx.clearRect(0, 0, this.canvas.width, this.canvas.height);
+    this.particles = this.particles.filter(p => {
+      this.draw(p);
+      return this.update(p);
+    });
+    this.animationId = requestAnimationFrame(() => this.animate());
+  },
+
+  stop() {
+    if (this.animationId) {
+      cancelAnimationFrame(this.animationId);
+      this.animationId = null;
+    }
+    this.particles = [];
+    if (this.ctx) this.ctx.clearRect(0, 0, this.canvas.width, this.canvas.height);
+  },
+
+  burst(element) {
+    this.stop();
+    this.initCanvas();
+    const cfg = this.config[element] || this.config.none;
+    for (let i = 0; i < cfg.count; i++) {
+      setTimeout(() => {
+        this.particles.push(this.createParticle(cfg));
+      }, Math.random() * 150);
+    }
+    this.animate();
+  },
+};
+
+window.addEventListener('resize', () => {
+  if (ReleaseParticles.canvas) {
+    ReleaseParticles.canvas.width = window.innerWidth;
+    ReleaseParticles.canvas.height = window.innerHeight;
+  }
+});
+
 
 // ==========================================
 // 十、快捷选择
