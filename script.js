@@ -9,62 +9,62 @@
 const BASIC_SEALS = {
   '子': {
     name: '鼠', romaji: 'Ne', emoji: '🐀',
-    img: 'img/seal-ne.jpg',
+    img: 'img/seal-ne.JPG',
     guide: '左手食指竖起，右手握住左手，右手拇指夹在左手食指和中指之间'
   },
   '丑': {
     name: '牛', romaji: 'Ushi', emoji: '🐂',
-    img: 'img/seal-ushi.jpg',
+    img: 'img/seal-ushi.JPG',
     guide: '双手水平交叉，左手食指和右手中指竖直向上，其余手指交叉握紧'
   },
   '寅': {
     name: '虎', romaji: 'Tora', emoji: '🐅',
-    img: 'img/seal-tora.jpg',
+    img: 'img/seal-tora.JPG',
     guide: '双手手指交叉扣紧，左右手的食指和中指竖起并拢，指尖朝上'
   },
   '卯': {
     name: '兔', romaji: 'U', emoji: '🐇',
-    img: 'img/seal-u.jpg',
+    img: 'img/seal-u.JPG',
     guide: '右手小指竖直朝上，左手覆盖右手，左手小指也竖直朝上，其余手指交叉'
   },
   '辰': {
     name: '龙', romaji: 'Tatsu', emoji: '🐉',
-    img: 'img/seal-tatsu.jpg',
+    img: 'img/seal-tatsu.JPG',
     guide: '左手握拳，右手拇指扣在左拳外侧，其余四指包住左拳'
   },
   '巳': {
     name: '蛇', romaji: 'Mi', emoji: '🐍',
-    img: 'img/seal-mi.jpg',
+    img: 'img/seal-mi.JPG',
     guide: '双手合十，十指自然并拢贴合，指尖朝上，类似祈祷姿势'
   },
   '午': {
     name: '马', romaji: 'Uma', emoji: '🐎',
-    img: 'img/seal-uma.jpg',
+    img: 'img/seal-uma.JPG',
     guide: '双手指尖相对，食指与小指竖起分开，中指和无名指弯曲在内侧交叉'
   },
   '未': {
     name: '羊', romaji: 'Hitsuji', emoji: '🐑',
-    img: 'img/seal-hitsuji.jpg',
+    img: 'img/seal-hitsuji.JPG',
     guide: '右手在上左手在下，双手手指交错重叠握紧，掌心朝下'
   },
   '申': {
     name: '猴', romaji: 'Saru', emoji: '🐒',
-    img: 'img/seal-saru.jpg',
+    img: 'img/seal-saru.JPG',
     guide: '右手掌心朝下覆盖在左手掌心朝上的手上，右手拇指向外伸出'
   },
   '酉': {
     name: '鸡', romaji: 'Tori', emoji: '🐓',
-    img: 'img/seal-tori.jpg',
+    img: 'img/seal-tori.JPG',
     guide: '左手手指并拢朝上，右手从外侧握住左手手指，指尖朝上形成鸟喙状'
   },
   '戌': {
     name: '狗', romaji: 'Inu', emoji: '🐕',
-    img: 'img/seal-inu.jpg',
+    img: 'img/seal-inu.JPG',
     guide: '左手握拳掌心朝下，右手张开掌心朝下盖在左拳上方'
   },
   '亥': {
     name: '猪', romaji: 'I', emoji: '🐗',
-    img: 'img/seal-i.jpg',
+    img: 'img/seal-i.JPG',
     guide: '双手手腕合拢贴紧，十指全部张开朝外展开，如孔雀开屏'
   },
   '特殊': {
